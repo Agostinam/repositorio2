@@ -1,5 +1,4 @@
 
-
 class torta{
   constructor(id, producto, ingrediente, precio){
     this.id = id,
@@ -8,7 +7,7 @@ class torta{
     this.precio = precio
   }
   mostrarinfotorta(){
-    console.log(`El producto seleccionado ${this.producto} cuyo ingrediente es ${this.ingrediente} y su precio es  ${this.precio}`)
+    console.log(`El nombre de la torta es ${this.producto} cuyo sabor es ${this.ingrediente} y su precio es  ${this.precio}`)
   }
 }
 
@@ -42,10 +41,20 @@ productonuevo.mostrarinfotorta()
 console.log(productonuevo)
 opcionespasteleria.push(productonuevo)
 console.log(opcionespasteleria)
-
 }
 
-
+function borrartorta () {
+  let productoaborrar = prompt("Ingrese el nombre de la torta que desea borrar:");
+  
+  const indice = opcionespasteleria.findIndex(torta => torta.producto.toUpperCase() === productoaborrar.toUpperCase());
+  
+  if (indice == -1) {
+    opcionespasteleria.splice(indice, 1);
+    console.log(`La torta "${productoaborrar}" ha sido eliminada del catálogo.`);
+  } else {
+    console.log(`La torta "${productoaborrar}" no se encuentra en nuestro catálogo.`);
+  }
+}
 
 
  function opcionespasteleriaForEach(array) {
@@ -57,7 +66,7 @@ console.log(opcionespasteleria)
    )
 }
 
-opcionespasteleriaForEach(opcionespasteleria)
+
 
 function buscarporproducto(array){
   
@@ -73,24 +82,46 @@ function buscarporproducto(array){
   }
 }
 
-function buscarporingrediente(arr){
-  let ingredientebusqueda = prompt("Ingrese el ingrediente que está buscando")
+function buscarporingrediente(arr) {
+  let ingredientebusqueda = prompt("Ingrese el sabor que está buscando");
   let busqueda = arr.filter(
-     (torta) => torta.ingrediente.toLowerCase() == ingredientebusqueda.toLowerCase()
-  )
-  if(arr.length == undefined){
-     console.log(`Para el ingrediente ${ingredientebusqueda} no hay coincidencias en nuestro catalogo`)
-  }else{
-     console.log(busqueda);
+    (torta) => torta.ingrediente.toLowerCase() === ingredientebusqueda.toLowerCase()
+  );
+  
+  if (busqueda.length === 0) {
+    console.log(`No hay tortas en nuestro catálogo con el sabor "${ingredientebusqueda}".`);
+  } else {
+    console.log("Tortas encontradas con el sabor especificado:");
+    busqueda.forEach(torta => torta.mostrarinfotorta());
   }
 }
+
 //buscarporingrediente(opcionespasteleria)
 
+function buscarporprecio(array) {
+  let precioingresado = prompt("Ingrese el precio de la torta que estás buscando:");
+  
+  if (isNaN(precioingresado)) {
+    alert("El valor ingresado no es un número válido. Por favor, ingrese un valor numérico.");
+    return;
+  }
+  
+  let precio = parseInt(precioingresado);
+  
+  let busqueda = array.filter(torta => torta.precio === precio);
+  
+  if (busqueda.length === 0) {
+    console.log(`No hay tortas en nuestro catálogo con el precio de ${precio}.`);
+  } else {
+    console.log("Tortas encontradas con el precio especificado:");
+    busqueda.forEach(torta => torta.mostrarinfotorta());
+  }
+}
 
 
 function menu(){
    
-  let salirMenu = false
+  let salirmenu = false
 
 
  do{
@@ -109,7 +140,7 @@ function menu(){
 
       break
     case 2: 
-      console.log("Borrar torta")
+      borrartorta()
       break
     case 3:
       opcionespasteleriaForEach(opcionespasteleria)
@@ -120,6 +151,9 @@ function menu(){
     case 5:
       buscarporingrediente(opcionespasteleria)
       break
+    case 6:
+      buscarporprecio(opcionespasteleria)
+      break
     case 0:
       console.log(`Gracias por visitarnos ¡Te esperamos pronto!`)
       salirmenu = true
@@ -128,7 +162,7 @@ function menu(){
       console.log("Opición no válida, ingresá alguna presente en el menú")
       break
     }
-  }while(!salirMenu)
+  }while(!salirmenu)
 }
 
 menu()
